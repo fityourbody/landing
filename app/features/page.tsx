@@ -3,6 +3,7 @@ import { DeviceIphone15Pro } from "@/components/device-iphone-15-pro"
 import { BackgroundStrands } from "@/components/background-strands"
 import { Button } from "@/components/ui/button"
 import { StoreBadges } from "@/components/store-badges"
+import { Card } from "@/components/ui/card"
 
 export default function FeaturesPage() {
   return (
@@ -29,15 +30,15 @@ export default function FeaturesPage() {
       </SectionReveal>
 
       <SectionReveal className="bg-white text-black">
-        <div className="container mx-auto px-4 py-20 grid md:grid-cols-2 gap-10">
-          <div className="fyb-card p-6">
+        <div className="container mx-auto grid gap-10 px-4 py-20 md:grid-cols-2">
+          <Card className="fyb-card p-6">
             <h3 className="text-2xl font-semibold">Smart reminders</h3>
             <p className="text-neutral-600">Adaptive reminders ensure you never miss a session.</p>
-          </div>
-          <div className="fyb-card p-6">
+          </Card>
+          <Card className="fyb-card p-6">
             <h3 className="text-2xl font-semibold">Analytics that matter</h3>
             <p className="text-neutral-600">See progress with volume, intensity, and PR tracking.</p>
-          </div>
+          </Card>
         </div>
       </SectionReveal>
     </main>

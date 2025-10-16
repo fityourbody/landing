@@ -3,9 +3,10 @@
 import { useMemo, useState } from "react"
 import Image from "next/image"
 import Link from "next/link"
-import { Icon } from "@iconify/react"
+// Icons removed to eliminate inline SVGs
 
 import { Button } from "@/components/ui/button"
+import { Card } from "@/components/ui/card"
 import { SectionReveal } from "@/components/section-reveal"
 import { Starburst } from "@/components/starburst"
 import { BackgroundStrands } from "@/components/background-strands"
@@ -333,14 +334,30 @@ export default function Page() {
   return (
     <main className="min-h-dvh">
       {/* NAV */}
-      <header className="fyb-strands relative">
-        <BackgroundStrands />
-        <div className="container mx-auto flex items-center justify-between gap-4 px-4 py-6">
+      <header className="relative min-h-dvh">
+        {/* Decorative background video */}
+        <video
+          className="hero-video"
+          aria-hidden="true"
+          playsInline
+          autoPlay
+          muted
+          loop
+          poster="/images/hero.png"
+        >
+          <source src="/hero.mp4" type="video/mp4" />
+        </video>
+        {/* Gradient/backdrop overlay for legibility */}
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-0 bg-gradient-to-b from-black/60 via-black/40 to-black/60 [backdrop-filter:saturate(120%)_blur(2px)]"
+        />
+        <div className="container relative z-10 mx-auto flex items-center gap-4 px-4 py-6">
           <div className="flex items-center gap-2">
             <span className="inline-block h-5 w-5 rounded-sm" style={{ background: "var(--fyb-brand)" }} aria-hidden="true" />
             <span className="font-semibold tracking-tight">{t.brand}</span>
           </div>
-          <nav className="hidden items-center gap-6 text-sm text-white/80 lg:flex">
+          <nav className="ml-6 hidden items-center gap-6 text-sm text-white/80 lg:flex">
             <Link href="#features" className="transition-colors hover:text-white">
               {t.nav.features}
             </Link>
@@ -357,7 +374,7 @@ export default function Page() {
               {t.nav.company}
             </Link>
           </nav>
-          <div className="flex items-center gap-2">
+          <div className="ml-auto flex items-center gap-2">
             <Button
               variant="ghost"
               size="icon-sm"
@@ -365,7 +382,7 @@ export default function Page() {
               onClick={() => setMenuOpen((open) => !open)}
               aria-label={menuOpen ? "Close navigation" : "Open navigation"}
             >
-              <Icon icon={menuOpen ? "solar:close-circle-bold-duotone" : "solar:hamburger-menu-bold-duotone"} className="size-5" />
+              <span aria-hidden className="text-base">{menuOpen ? "×" : "≡"}</span>
             </Button>
             <Button
               variant="ghost"
@@ -373,7 +390,7 @@ export default function Page() {
               className="rounded-full text-white/80 hover:text-white"
               onClick={() => setLang(nextLang)}
             >
-              <Icon icon="solar:global-bold-duotone" className="size-5" />
+              <span aria-hidden className="text-base">🌐</span>
               <span className="hidden sm:inline">{switchLabel}</span>
             </Button>
             <div className="hidden items-center gap-3 md:flex">
@@ -381,7 +398,6 @@ export default function Page() {
                 {t.auth.login}
               </Button>
               <Button className="rounded-full fyb-pill transition-transform duration-300 hover:-translate-y-0.5 hover:opacity-90">
-                <Icon icon="solar:rocket-bold-duotone" className="size-5" />
                 {t.auth.start}
               </Button>
             </div>
@@ -392,23 +408,18 @@ export default function Page() {
           <div className="border-t border-white/10 bg-black/70 backdrop-blur-sm lg:hidden">
             <div className="container mx-auto flex flex-col gap-3 px-4 py-4 text-sm text-white/80">
               <Link href="#features" className="flex items-center gap-2 transition-colors hover:text-white" onClick={() => setMenuOpen(false)}>
-                <Icon icon="solar:clapperboard-open-play-bold-duotone" className="size-4" />
                 {t.nav.features}
               </Link>
               <Link href="#pricing" className="flex items-center gap-2 transition-colors hover:text-white" onClick={() => setMenuOpen(false)}>
-                <Icon icon="solar:tag-price-bold-duotone" className="size-4" />
                 {t.nav.pricing}
               </Link>
               <Link href="#faq" className="flex items-center gap-2 transition-colors hover:text-white" onClick={() => setMenuOpen(false)}>
-                <Icon icon="solar:question-circle-bold-duotone" className="size-4" />
                 {t.nav.faq}
               </Link>
               <Link href="#about" className="flex items-center gap-2 transition-colors hover:text-white" onClick={() => setMenuOpen(false)}>
-                <Icon icon="solar:info-circle-bold-duotone" className="size-4" />
                 {t.nav.about}
               </Link>
               <Link href="#company" className="flex items-center gap-2 transition-colors hover:text-white" onClick={() => setMenuOpen(false)}>
-                <Icon icon="solar:buildings-3-bold-duotone" className="size-4" />
                 {t.nav.company}
               </Link>
               <div className="flex flex-col gap-2 pt-3">
@@ -416,7 +427,6 @@ export default function Page() {
                   {t.auth.login}
                 </Button>
                 <Button className="rounded-full fyb-pill transition-transform duration-300 hover:-translate-y-0.5 hover:opacity-90">
-                  <Icon icon="solar:rocket-bold-duotone" className="size-5" />
                   {t.auth.start}
                 </Button>
               </div>
@@ -425,58 +435,64 @@ export default function Page() {
         ) : null}
 
         {/* HERO */}
-        <SectionReveal className="container mx-auto grid items-center gap-12 px-4 pb-20 pt-6 lg:grid-cols-2">
+        <SectionReveal className="container relative z-10 mx-auto grid min-h-[inherit] items-center gap-12 px-4 pb-20 pt-6 lg:grid-cols-2">
           <div className="space-y-6">
             <h1 className="text-balance text-5xl font-semibold leading-[1.05] md:text-6xl lg:text-7xl">{t.hero.title}</h1>
             <p className="max-w-prose text-white/70">{t.hero.description}</p>
-            <div className="flex flex-wrap items-center gap-3">
-              <Button className="rounded-full fyb-pill transition-transform duration-300 hover:-translate-y-0.5 hover:opacity-90">
-                <Icon icon="solar:download-minimalistic-bold-duotone" className="size-5" />
-                {t.hero.primaryCta}
-              </Button>
-              <Button variant="secondary" className="rounded-full bg-white/10 backdrop-blur transition hover:bg-white/20">
-                <Icon icon="solar:arrow-right-up-bold-duotone" className="size-5" />
-                {t.hero.secondaryCta}
-              </Button>
+            <div className="mt-1 text-sm font-medium text-white/80">{t.hero.primaryCta}</div>
+            <div className="mt-2 flex flex-wrap items-center gap-3">
+              <a href="#" aria-label="Download on the App Store" className="inline-flex">
+                <img src="/appstore.svg" alt="Download on the App Store" className="h-12 w-auto" />
+              </a>
+              <a href="#" aria-label="Get it on Google Play" className="inline-flex">
+                <img src="/playstore.svg" alt="Get it on Google Play" className="h-12 w-auto" />
+              </a>
             </div>
-            <div className="mt-6 flex items-center gap-4">
-              <div className="flex -space-x-3">
-                <Image src="/images/cta-phones.png" alt="" width={1} height={1} className="hidden" />
-                {[1, 2, 3, 4].map((i) => (
-                  <Image
-                    key={i}
-                    src={`/placeholder.svg?height=40&width=40&query=member%20avatar`}
-                    alt=""
-                    width={40}
-                    height={40}
-                    className="rounded-full ring-2 ring-background"
-                  />
-                ))}
-              </div>
-              <div>
-                <div className="text-lg font-semibold" style={{ color: "var(--fyb-brand)" }}>
-                  {t.hero.socialHighlight}
-                </div>
-                <p className="text-xs text-white/60">{t.hero.socialCaption}</p>
-              </div>
-            </div>
-            <StoreBadges className="mt-4" />
           </div>
 
           <div className="relative">
-            <div className="absolute right-0 top-6 -z-10 h-72 w-72 md:h-96 md:w-96">
-              <Starburst className="h-full w-full opacity-70" />
-            </div>
-            <DeviceIphone15Pro className="mx-auto md:mr-8" roundedBg src="/images/hero.jpg" alt="FYB app preview in iPhone 15 Pro" />
-            <div className="absolute -bottom-8 left-6 hidden md:block">
-              <div className="fyb-card px-4 py-2 text-sm shadow-sm transition-transform duration-300 hover:-translate-y-1">
+            {/* Background phones for depth */}
+            <DeviceIphone15Pro
+              src="/images/hero.png"
+              alt=""
+              className="absolute -left-10 top-10 hidden rotate-[-10deg] scale-90 opacity-90 md:block z-0"
+            />
+            <DeviceIphone15Pro
+              src="/images/hero.png"
+              alt=""
+              className="absolute -right-10 top-20 hidden rotate-[8deg] scale-75 opacity-80 md:block z-0"
+            />
+
+            {/* Foreground main phone, larger */}
+            <DeviceIphone15Pro
+              className="z-10 mx-auto scale-110 md:mr-8 md:scale-125"
+              src="/images/hero.png"
+              alt="FYB app preview in iPhone 15 Pro"
+            />
+            <div className="fyb-float-slow fyb-delay-400 absolute -bottom-8 left-6 hidden md:block">
+              <Card className="fyb-card bg-white px-4 py-2 text-sm shadow-sm transition-transform duration-300 hover:-translate-y-1">
                 {lang === "id" ? "Buat rencana leg day" : "Create a leg day plan"}
-              </div>
+              </Card>
             </div>
-            <div className="absolute bottom-24 -right-8 hidden md:block">
-              <div className="fyb-card px-4 py-2 text-sm shadow-sm transition-transform duration-300 hover:-translate-y-1">
+            <div className="fyb-float-fast fyb-delay-0 absolute bottom-24 -right-8 hidden md:block">
+              <Card className="fyb-card bg-[color:var(--fyb-brand-weak)] px-4 py-2 text-sm shadow-sm transition-transform duration-300 hover:-translate-y-1">
                 {lang === "id" ? "Jatuh tempo: Kam 18.00" : "Due: Thu 6 PM"}
-              </div>
+              </Card>
+            </div>
+            <div className="fyb-float-lg fyb-delay-1200 absolute -top-4 left-8 hidden md:block">
+              <Card className="fyb-card bg-[color:var(--chart-4)] px-4 py-2 text-sm shadow-sm transition-transform duration-300 hover:-translate-y-1">
+                {lang === "id" ? "Target PR baru: +5kg" : "New PR target: +5kg"}
+              </Card>
+            </div>
+            <div className="fyb-float-xy fyb-delay-800 absolute top-10 right-24 hidden md:block">
+              <Card className="fyb-card bg-[color:var(--chart-2)] px-4 py-2 text-sm shadow-sm transition-transform duration-300 hover:-translate-y-1">
+                {lang === "id" ? "Catatan pelatih: Fokus teknik" : "Coach note: Focus form"}
+              </Card>
+            </div>
+            <div className="fyb-float-fast fyb-delay-1600 absolute bottom-36 left-40 hidden md:block">
+              <Card className="fyb-card bg-[color:var(--accent)] px-3 py-1.5 text-xs shadow-sm transition-transform duration-300 hover:-translate-y-1">
+                {lang === "id" ? "Pemanasan: 5 menit" : "Warm-up: 5 mins"}
+              </Card>
             </div>
           </div>
         </SectionReveal>
@@ -491,27 +507,37 @@ export default function Page() {
             <h2 className="text-balance text-3xl font-semibold leading-tight md:text-5xl">{t.features.title}</h2>
             <p className="mt-4 max-w-2xl text-neutral-600">{t.features.description}</p>
             <div className="mt-6 flex items-center gap-3">
-              <button className="grid h-10 w-10 place-items-center rounded-full border border-neutral-200 bg-white transition hover:-translate-y-0.5">
-                <Icon icon="solar:alt-arrow-left-bold-duotone" className="size-5" />
+              <button className="grid h-10 w-10 place-items-center rounded-full border border-neutral-200 bg-white transition hover:-translate-y-0.5 cursor-pointer shadow-sm hover:shadow-md active:shadow-sm">
+                <span aria-hidden className="text-base">←</span>
               </button>
-              <button className="grid h-10 w-10 place-items-center rounded-full bg-black text-white transition hover:-translate-y-0.5">
-                <Icon icon="solar:alt-arrow-right-bold-duotone" className="size-5" />
+              <button className="grid h-10 w-10 place-items-center rounded-full bg-black text-white transition hover:-translate-y-0.5 cursor-pointer shadow-sm hover:shadow-md active:shadow-sm">
+                <span aria-hidden className="text-base">→</span>
               </button>
             </div>
           </div>
 
           <div className="mt-10 grid gap-6 md:grid-cols-2">
             {t.features.cards.map((card) => (
-              <div key={card.title} className="fyb-card group flex h-full flex-col gap-4 p-6 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl">
+              <Card
+                key={card.title}
+                className="fyb-card group flex h-full flex-col gap-4 p-6 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl"
+              >
                 <div className="flex items-center gap-3 text-[color:var(--fyb-brand)]">
-                  <Icon icon={card.icon} className="size-8" />
+                  <span className="inline-block h-2.5 w-2.5 rounded-full bg-[color:var(--fyb-brand)]" aria-hidden />
                   <h3 className="text-xl font-semibold text-black">{card.title}</h3>
                 </div>
                 <p className="text-neutral-600">{card.description}</p>
                 <div className="mt-auto overflow-hidden rounded-2xl border">
-                  <Image src={card.image} alt={card.title} width={880} height={400} className="w-full transition-transform duration-500 group-hover:scale-105" />
+                  <div aria-hidden className="aspect-[22/10] w-full bg-neutral-100" />
+                  {/* <Image
+                    src={card.image}
+                    alt={card.title}
+                    width={880}
+                    height={400}
+                    className="w-full transition-transform duration-500 group-hover:scale-105"
+                  /> */}
                 </div>
-              </div>
+              </Card>
             ))}
           </div>
         </div>
@@ -523,17 +549,14 @@ export default function Page() {
           <p className="mt-2 max-w-2xl text-neutral-600">{t.programs.description}</p>
           <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
             {t.programs.items.map((program) => (
-              <div key={program.title} className="fyb-card flex flex-col gap-4 p-5 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl">
-                <img
-                  src={"/placeholder.svg?height=160&width=320&query=gym%20program%20preview"}
-                  alt=""
-                  width={320}
-                  height={160}
-                  className="w-full rounded-xl border"
-                />
+              <Card
+                key={program.title}
+                className="fyb-card flex flex-col gap-4 p-5 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl"
+              >
+                <div aria-hidden className="h-40 w-full rounded-xl border bg-neutral-100" />
                 <h3 className="font-semibold">{program.title}</h3>
                 <p className="text-sm text-neutral-600">{program.meta}</p>
-              </div>
+              </Card>
             ))}
           </div>
         </div>
@@ -554,7 +577,7 @@ export default function Page() {
               aria-label="Play demo"
               className="absolute left-1/2 top-1/2 grid h-16 w-16 -translate-x-1/2 -translate-y-1/2 place-items-center rounded-full bg-white text-black shadow-md transition-transform duration-300 hover:-translate-y-1"
             >
-              <Icon icon="solar:play-bold-duotone" className="size-7" />
+              <span aria-hidden className="text-2xl">▶</span>
             </button>
           </div>
           <div>
@@ -562,7 +585,6 @@ export default function Page() {
             <h3 className="text-balance text-4xl font-semibold md:text-5xl">{t.aboutApp.title}</h3>
             <p className="mb-6 mt-4 text-white/70">{t.aboutApp.description}</p>
             <Button className="rounded-full fyb-pill transition-transform duration-300 hover:-translate-y-0.5 hover:opacity-90">
-              <Icon icon="solar:magic-stick-bold-duotone" className="size-5" />
               {t.aboutApp.cta}
             </Button>
           </div>
@@ -574,7 +596,7 @@ export default function Page() {
           <div className="grid items-start gap-12 lg:grid-cols-[1.1fr_0.9fr]">
             <div className="space-y-6">
               <span className="inline-flex items-center gap-2 rounded-full bg-black/5 px-4 py-1 text-xs font-semibold tracking-widest text-black/70">
-                <Icon icon="solar:buildings-3-bold-duotone" className="size-4" />
+                <span aria-hidden className="text-xs">•</span>
                 {t.aboutCompany.label}
               </span>
               <h3 className="text-balance text-4xl font-semibold md:text-5xl">{t.aboutCompany.title}</h3>
@@ -599,8 +621,8 @@ export default function Page() {
                   key={value.title}
                   className="flex items-start gap-4 rounded-2xl bg-black/5 p-6 transition-all duration-300 hover:-translate-y-1 hover:bg-black/10"
                 >
-                  <span className="flex h-12 w-12 items-center justify-center rounded-xl bg-white shadow-sm">
-                    <Icon icon={value.icon} className="size-6 text-black/80" />
+                  <span className="flex h-12 w-12 items-center justify-center rounded-xl bg-white shadow-sm" aria-hidden>
+                    <span className="text-base">★</span>
                   </span>
                   <div>
                     <h4 className="text-lg font-semibold text-black">{value.title}</h4>
@@ -624,13 +646,7 @@ export default function Page() {
                 className="rounded-2xl bg-white/5 p-6 ring-1 ring-white/10 transition-all duration-300 hover:-translate-y-1 hover:ring-white/30"
               >
                 <div className="flex items-center gap-3">
-                  <img
-                    src={"/placeholder.svg?height=44&width=44&query=member%20avatar"}
-                    alt=""
-                    width={44}
-                    height={44}
-                    className="rounded-full"
-                  />
+                  <div aria-hidden className="h-11 w-11 rounded-full bg-white/10" />
                   <div>
                     <div className="font-semibold">Member {i}</div>
                     <div className="text-xs text-white/60">{t.community.program}</div>
@@ -653,12 +669,12 @@ export default function Page() {
             </div>
             <Link href="/pricing" className="flex items-center gap-2 text-sm font-medium underline transition-colors hover:text-black">
               {t.pricing.cta}
-              <Icon icon="solar:arrow-right-linear" className="size-4" />
+              <span aria-hidden>→</span>
             </Link>
           </div>
           <div className="mt-10 grid gap-6 md:grid-cols-3">
             {t.pricing.plans.map((plan) => (
-              <div key={plan.name} className="fyb-card p-6 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl">
+              <Card key={plan.name} className="fyb-card p-6 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl">
                 <div className="flex items-baseline justify-between">
                   <h4 className="text-xl font-semibold">{plan.name}</h4>
                   <div className="text-2xl font-semibold">{plan.price}</div>
@@ -666,19 +682,15 @@ export default function Page() {
                 <ul className="mt-4 space-y-2 text-sm text-neutral-700">
                   {plan.perks.map((perk) => (
                     <li key={perk} className="flex items-center gap-2">
-                      <Icon icon="solar:check-circle-bold-duotone" className="size-4 text-[color:var(--fyb-brand)]" />
+                      <span aria-hidden className="text-[color:var(--fyb-brand)]">✓</span>
                       <span>{perk}</span>
                     </li>
                   ))}
                 </ul>
-                <Link
-                  href="/pricing"
-                  className="mt-6 inline-flex items-center justify-center gap-2 rounded-full bg-black px-4 py-2 text-white transition hover:bg-black/80"
-                >
-                  <Icon icon="solar:cart-large-minimalistic-bold-duotone" className="size-5" />
-                  {t.auth.start}
-                </Link>
-              </div>
+                <Button asChild className="mt-6 gap-2 rounded-full bg-black text-white hover:bg-black/80">
+                  <Link href="/pricing">{t.auth.start}</Link>
+                </Button>
+              </Card>
             ))}
           </div>
         </div>
@@ -691,7 +703,7 @@ export default function Page() {
             <h3 className="text-3xl font-semibold md:text-5xl">{t.faq.title}</h3>
             <Link href="/faq" className="flex items-center gap-2 text-sm font-medium underline transition-colors hover:text-white">
               {t.faq.viewAll}
-              <Icon icon="solar:book-bookmark-bold-duotone" className="size-4" />
+              <span aria-hidden>→</span>
             </Link>
           </div>
           <Accordion type="single" collapsible className="mt-6 max-w-3xl">
@@ -712,7 +724,6 @@ export default function Page() {
           <p className="mx-auto mt-3 max-w-3xl text-white/70">{t.cta.description}</p>
           <div className="mt-6">
             <Button className="rounded-full fyb-pill transition-transform duration-300 hover:-translate-y-0.5 hover:opacity-90">
-              <Icon icon="solar:alarm-add-bold-duotone" className="size-5" />
               {t.cta.button}
             </Button>
           </div>

@@ -1,5 +1,8 @@
 import { SectionReveal } from "@/components/section-reveal"
 import Link from "next/link"
+import { Card } from "@/components/ui/card"
+import { Button } from "@/components/ui/button"
+import { Badge } from "@/components/ui/badge"
 
 const plans = [
   {
@@ -34,10 +37,10 @@ export default function PricingPage() {
 
         <div className="mt-10 grid gap-6 md:grid-cols-3">
           {plans.map((p) => (
-            <div key={p.name} className="fyb-card p-6">
-              {p.popular && (
-                <div className="mb-3 inline-block rounded-full bg-black px-3 py-1 text-xs text-white">Most popular</div>
-              )}
+            <Card key={p.name} className="fyb-card p-6">
+              {p.popular ? (
+                <Badge className="mb-3 rounded-full bg-black text-white">Most popular</Badge>
+              ) : null}
               <div className="flex items-baseline justify-between">
                 <h2 className="text-xl font-semibold">{p.name}</h2>
                 <div className="text-2xl font-semibold">{p.price}</div>
@@ -50,13 +53,10 @@ export default function PricingPage() {
                   </li>
                 ))}
               </ul>
-              <Link
-                href="#"
-                className="mt-6 inline-flex w-full items-center justify-center rounded-full bg-black px-4 py-2 text-white"
-              >
-                {p.cta}
-              </Link>
-            </div>
+              <Button asChild className="mt-6 rounded-full bg-black text-white hover:bg-black/80">
+                <Link href="#">{p.cta}</Link>
+              </Button>
+            </Card>
           ))}
         </div>
       </SectionReveal>

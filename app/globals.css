@@ -129,6 +129,21 @@
   }
 }
 
+/* Hero video helpers */
+.hero-video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+@media (prefers-reduced-motion: reduce) {
+  /* Let poster show; some browsers will not autoplay, keeping poster visible */
+  .hero-video {
+    filter: none;
+  }
+}
+
 /* Dark page strands background helper */
 .fyb-strands {
   background-color: var(--background);
@@ -175,4 +190,62 @@
 /* Device shadow */
 .device-shadow {
   filter: drop-shadow(0 8px 24px oklch(0.35 0 0 / 0.5));
+}
+
+/* Floating chips animations for hero */
+@keyframes fyb-float-y {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+@keyframes fyb-float-y-lg {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-12px);
+  }
+}
+@keyframes fyb-float-y-small {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-4px);
+  }
+}
+@keyframes fyb-float-xy {
+  0%, 100% {
+    transform: translate(0, 0);
+  }
+  50% {
+    transform: translate(6px, -10px);
+  }
+}
+.fyb-float-slow {
+  animation: fyb-float-y 6s ease-in-out infinite;
+}
+.fyb-float-slower {
+  animation: fyb-float-y 9s ease-in-out infinite;
+}
+.fyb-float-fast {
+  animation: fyb-float-y-small 4.5s ease-in-out infinite;
+}
+.fyb-float-lg {
+  animation: fyb-float-y-lg 7s ease-in-out infinite;
+}
+.fyb-float-xy {
+  animation: fyb-float-xy 8s ease-in-out infinite;
+}
+.fyb-delay-0 { animation-delay: 0s; }
+.fyb-delay-400 { animation-delay: .4s; }
+.fyb-delay-800 { animation-delay: .8s; }
+.fyb-delay-1200 { animation-delay: 1.2s; }
+.fyb-delay-1600 { animation-delay: 1.6s; }
+
+@media (prefers-reduced-motion: reduce) {
+  [class*="fyb-float-"] { animation: none !important; }
 }

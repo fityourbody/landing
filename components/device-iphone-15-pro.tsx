@@ -23,7 +23,7 @@ export function DeviceIphone15Pro({ src, alt = "App screenshot", className, roun
         {/* screen */}
         <div className="absolute inset-[12px] rounded-[38px] overflow-hidden bg-black">
           {src ? (
-            <Image src={src || "/placeholder.svg"} alt={alt} fill sizes="280px" className="object-cover" priority />
+            <Image src={src} alt={alt} fill sizes="280px" className="object-cover" priority />
           ) : (
             <div className="h-full w-full grid place-items-center text-white/70 text-sm">FYB App Screen</div>
           )}
